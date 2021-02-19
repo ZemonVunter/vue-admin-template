@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">后台管理系统</h3>
+        <h3 class="title">反转社区</h3>
       </div>
 
       <el-form-item prop="username">
@@ -20,7 +20,7 @@
           id="account"
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="请输入用户名"
           name="username"
           type="text"
           tabindex="1"
@@ -38,7 +38,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="请输入密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -49,11 +49,28 @@
         </span>
       </el-form-item>
 
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <icon class="el-icon-s-claim" />
+        </span>
+       <el-input
+      placeholder="请输入验证码"
+      v-model="loginForm.code"
+      clearable>
+      </el-input>
+      </el-form-item>
+      <div class="img-yzm">
+      <img 
+      src="http://localhost:9000/user/login/getCode"
+      alt="captcha"
+      @click="getCaptcha"
+      ref="captcha"/>
+      </div> 
       <el-button
         id="login_btn"
         :loading="loading"
         type="primary"
-        style="width:100%;margin-bottom:30px;"
+        style="width:100%;margin-top:25px;"
         @click.native.prevent="handleLogin"
       >登录</el-button>
     </el-form>
@@ -63,28 +80,29 @@
 </template>
 
 <script>
-import md5 from "js-md5";
+import {login} from '@/api/login.js'
 export default {
   name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error("Please enter the correct user name"));
+        callback(new Error("请输入正确的用户名"));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error("密码长度错误，请重新输入"));
       } else {
         callback();
       }
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "111111"
+        username: "demonhunter",
+        password: "123456",
+        code:""
       },
       loginRules: {
         username: [
@@ -92,7 +110,7 @@ export default {
         ],
         password: [
           { required: true, trigger: "blur", validator: validatePassword }
-        ]
+        ],
       },
       loading: false,
       passwordType: "password",
@@ -119,40 +137,32 @@ export default {
       });
     },
     handleLogin() {
-      let that = this;
-      this.loading = true;
-      //数据格式验证
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          localStorage.setItem("hasLogin", true);
-          this.$router.push({ path: "/" });
-        } else {
-          console.log("验证失败");
-        }
-      });
-      return 0;
+     
+      // let that = this;
+      // this.loading = true;
+      // //数据格式验证
+      // this.$refs.validate(valid => {
+      //   if (valid) {loginForm
+      //     localStorage.setItem("hasLogin", true);
+      //     this.$router.push({ path: "/" });
+      //   } else {
+      //     console.log("验证失败");
+      //   }
+      // });
       // 可自定义登录时的逻辑处理
-      this.req({
-        url: "login",
-        data: {
-          account: that.loginForm.username,
-          psw: md5(that.loginForm.password + "*/-sz") //对密码进行加盐md5处理
-        },
-        method: "POST"
-      }).then(
-        res => {
+      login(this.loginForm).then(res => {
+          console.log('1111111',res)
           console.log("res :", res);
           localStorage.setItem("hasLogin", true);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
-          this.$router.push({ path: "/" });
-        },
-        err => {
-          console.log("err :", err);
-          this.passwordError = true;
-          this.loading = false;
-        }
-      );
+          this.$router.push({ path: '/test' });
+        }).catch(err=>{
+          console.log(err)
+        })
+    },
+    getCaptcha(){
+      this.$refs.captcha.src="http://localhost:9000/user/login/getCode?time="+Date.now();
     }
   }
 };
@@ -273,4 +283,18 @@ $light_gray: #eee;
     user-select: none;
   }
 }
+.img-yzm{
+  position: relative!important;
+  display: flex;
+  width:30%;
+  height: 100%;
+  padding: 2px;
+}
+.getCode{
+  position: absolute;
+  left: 0px;
+}
+/deep/ .el-form-item__content {
+  display: flex;
+} 
 </style>

@@ -37,16 +37,16 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    // const res = response.data.message
     const res = response.data
-
     // if the custom code is not 100, it is judged as an error.
     if (res.code !== 200) {
       Message({
-        message: res.msg || 'Error check your token or method',
+        message: res.message|| '系统错误，请联系管理员',
         type: 'error',
         duration: 2 * 1000
       })
-      return Promise.reject(new Error(res.msg || 'Error'))
+      return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }
