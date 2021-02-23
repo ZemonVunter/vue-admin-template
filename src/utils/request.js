@@ -54,7 +54,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     Message({
-      message: error.message,
+      message: '系统错误，请联系管理员1752767673@qq.com',
       type: 'error',
       duration: 2 * 1000
     })

@@ -42,7 +42,6 @@
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -56,6 +55,7 @@
        <el-input
       placeholder="请输入验证码"
       v-model="loginForm.code"
+       @keyup.enter.native="handleLogin"
       clearable>
       </el-input>
       </el-form-item>
@@ -158,7 +158,7 @@ export default {
           localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
           this.$router.push({ path: '/test' });
         }).catch(err=>{
-          console.log(err)
+          this.$refs.captcha.src="http://localhost:9000/user/login/getCode?time="+Date.now();
         })
     },
     getCaptcha(){
