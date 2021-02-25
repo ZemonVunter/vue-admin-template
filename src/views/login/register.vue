@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">反转社区</h3>
+        <h3 class="title">反转社区注册</h3>
       </div>
 
       <el-form-item prop="username">
@@ -43,19 +43,51 @@
           tabindex="2"
           auto-complete="on"
         />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
-        </span>
       </el-form-item>
 
-      <!-- <el-form-item prop="password">
+      <el-form-item prop="checkpassword">
         <span class="svg-container">
-          <icon class="el-icon-s-claim" />
+          <svg-icon icon-class="password" />
         </span>
         <el-input
-          placeholder="请输入验证码"
+          id="chkpsw"
+          :key="passwordType"
+          ref="checkpassword"
+          v-model="loginForm.checkpassword"
+          :type="passwordType"
+          placeholder="请确认您输入的密码"
+          name="checkpassword"
+          tabindex="2"
+          auto-complete="on"
+          maxlength="16"
+        />
+      </el-form-item>
+      <el-form-item
+        ><span class="svg-container">
+          <icon class="el-icon-user" />
+        </span>
+
+        <el-select v-model="loginForm.sex" placeholder="请选择性别">
+          <el-option label="帅锅" value="男"></el-option>
+          <el-option label="美铝" value="女"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-date-picker
+          type="date"
+          placeholder="   请选择您的出生日期(可点击顶部年份或月份，快速选择)"
+          v-model="loginForm.birthday"
+          style="width: 100%"
+          value-format="yyyy-MM-dd"
+          :picker-options="pickerOptions0"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item prop="code">
+        <span class="svg-container">
+          <svg-icon icon-class="plane" />
+        </span>
+        <el-input
+          placeholder="请输入验证码（点击图片刷新）"
           v-model="loginForm.code"
           @keyup.enter.native="handleLogin"
           clearable
@@ -64,67 +96,99 @@
       </el-form-item>
       <div class="img-yzm">
         <img
-          src="http://localhost:9000/user/login/getCode"
+          src="http://192.168.31.162:8080/user/login/getCode"
           alt="captcha"
           @click="getCaptcha"
           ref="captcha"
         />
-      </div> -->
-
+      </div>
       <el-button
+        id="login_btn"
         :loading="loading"
         type="primary"
-        style="width: 40%; margin-top: 25px"
-        @click.native.prevent="handleLogin"
-        >登录
-      </el-button>
-
-      <el-button
-        :loading="loading"
-        type="info"
-        style="width: 40%; margin-top: 25px"
-        @click="register"
-        class="zhuce"
-        >注册
-      </el-button>
+        style="width: 100%; margin-top: 25px"
+        @click.native.prevent="handleLogin('loginForm')"
+        >注册</el-button
+      >
     </el-form>
+
     <div class="info" style="bottom: 40px">Beta: 1.0</div>
     <div class="info">Technical Support: XXX</div>
   </div>
 </template>
-
 <script>
-import { login } from "@/api/login.js";
+import { register } from "@/api/login.js";
 export default {
   name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error("请输入正确的用户名"));
+        callback(new Error("用户名组成为字母或数字大于等于3！"));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("密码长度错误，请重新输入"));
+      //var passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}/
+      // callback(new Error("'密码必须由数字、字母、特殊字符组合,请输入6-16位'!"));
+      var passwordreg = /(?=.*\d)(?=.*[a-zA-Z]).{6,16}/;
+      if (!passwordreg.test(value)) {
+        callback(new Error("'密码必须由数字、字母组合,请输入6-16位'!"));
+      } else {
+        callback();
+      }
+    };
+    const validateCode = (rule, value, callback) => {
+      var codeReg = /^[a-zA-Z0-9]{4}$/;
+      if (!codeReg.test(value)) {
+        callback(new Error("'验证码格式错误'!"));
+      } else {
+        callback();
+      }
+    };
+    const validateConfirmPassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.loginForm.password) {
+        callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
       }
     };
     return {
-      loginForm: {
-        username: "demonhunter",
-        password: "123456",
-        code: "",
+      pickerOptions0: {
+        disabledDate(time) {
+          return time.getTime() > Date.now() - 8.64e6;
+        },
       },
+      loginForm: {
+        username: "",
+        password: "",
+        code: "",
+        sex: "",
+        birthday: "",
+        checkpassword: "",
+      },
+      //  confirmPassword:"",
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: "change", validator: validateUsername },
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
+          {
+            required: true,
+            trigger: ["change", "change"],
+            validator: validatePassword,
+          },
         ],
+        checkpassword: [
+          {
+            required: true,
+            trigger: "change",
+            validator: validateConfirmPassword,
+          },
+        ],
+        code: [{ required: true, trigger: "change", validator: validateCode }],
       },
       loading: false,
       passwordType: "password",
@@ -140,8 +204,20 @@ export default {
     },
   },
   methods: {
-    register(){
-      this.$router.push({path:'/register'})
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    confirmPassword() {
+      if (this.confirmPassword !== this.loginForm.password) {
+        callback(new Error("'密码必须由数字、字母组合,请输入6-16位'!"));
+      }
     },
     showPwd() {
       if (this.passwordType === "password") {
@@ -153,37 +229,31 @@ export default {
         this.$refs.password.focus();
       });
     },
-    handleLogin() {
-      let that = this;
-      // this.loading = true;
-      // //数据格式验证
-      // this.$refs.validate(valid => {
-      //   if (valid) {loginForm
-      //     localStorage.setItem("hasLogin", true);
-      //     this.$router.push({ path: "/" });
-      //   } else {
-      //     console.log("验证失败");
-      //   }
-      // });
-      // 可自定义登录时的逻辑处理
-      login(this.loginForm)
-        .then((res) => {
-          console.log("1111111", res);
-          console.log("res :", res);
-          localStorage.setItem("hasLogin", true);
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
-          this.$router.push({ path: "/test" });
-        })
-        // .catch((err) => {
-        //   this.$refs.captcha.src =
-        //     "http://localhost:9000/user/login/getCode?time=" + Date.now();
-        // });
+    handleLogin(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          register(this.loginForm)
+            .then((res) => {
+              console.log(11111111111111111);
+              this.$router.push({ path: "/login" });
+            })
+            .catch((err) => {
+              console.log(2222222222222222);
+              this.$refs.captcha.src =
+                "http://192.168.31.162:8080/user/login/getCode?time=" +
+                Date.now();
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
-    // getCaptcha() {
-    //   this.$refs.captcha.src =
-    //     "http://localhost:9000/user/login/getCode?time=" + Date.now();
-    // },
+
+    getCaptcha() {
+      this.$refs.captcha.src =
+        "http://192.168.31.162:8080/user/login/getCode?time=" + Date.now();
+    },
   },
 };
 </script>
@@ -220,7 +290,7 @@ $cursor: #fff;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
+      // padding: 12px 5px 12px 15px;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
@@ -256,7 +326,7 @@ $light_gray: #eee;
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    // padding: 160px 35px 50px;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -268,7 +338,7 @@ $light_gray: #eee;
 
     span {
       &:first-of-type {
-        margin-right: 0px;
+        margin-right: 16px;
       }
     }
   }
@@ -317,7 +387,9 @@ $light_gray: #eee;
 /deep/ .el-form-item__content {
   display: flex;
 }
-/deep/.zhuce {
-  margin-left: 85px;
-}
+// // elment-ui日期选择框的日历图标和清除图标默认样式修改
+// /deep/ .el-input__prefix,
+// /deep/ .el-input__icon {
+//   // line-height: 30px; // 可以通过设置行高改变图标在竖直方向上位置
+// }
 </style>

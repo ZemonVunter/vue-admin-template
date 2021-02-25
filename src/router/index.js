@@ -30,17 +30,46 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [{
+export const constantRoutes = [
+  {
+    name:'login',
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
-    path: '/404',
-    component: () => import('@/views/404'),
+    name: 'register',
+    path: '/register',
+    component: () => import('@/views/login/register'),
     hidden: true
   },
+  //测试页面
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        path: '/test',
+        name: 'test',
+        component: () => import('@/views/test/test'),
+        meta: {
+          title: '测试',
+        },
+      },
+      
+     
+      {
+        path: '/404',
+        component: () => import('@/views/404'),
+        hidden: true
+      },
+    ]
+  },
+  
+  
+
+  
+  
   // 素材管理
   {
     path: '/material',
@@ -85,25 +114,14 @@ export const constantRoutes = [{
     ]
   },
 
-  //测试页面
-  {
-    path: '/',
-    component: Layout,
-    children: [{
-      path: 'test',
-      name: 'test',
-      component: () => import('@/views/test/test'),
-      meta: {
-        title: '测试',
-      }
-    }]
-  },
+ 
+  
   // 404 page must be placed at the end !!!
-  {
-    path: '*',
-    redirect: '/404',
-    hidden: true
-  }
+  // {
+  //   path: '*',
+  //   redirect: '/404',
+  //   hidden: true
+  // }
 ]
 
 const createRouter = () => new Router({
