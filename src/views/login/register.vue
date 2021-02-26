@@ -64,7 +64,7 @@
       </el-form-item>
       <el-form-item
         ><span class="svg-container">
-          <icon class="el-icon-user" />
+          <i class="el-icon-user"></i>
         </span>
 
         <el-select v-model="loginForm.sex" placeholder="请选择性别">
@@ -80,6 +80,8 @@
           style="width: 100%"
           value-format="yyyy-MM-dd"
           :picker-options="pickerOptions0"
+          align="center"
+          :editable='false'
         ></el-date-picker>
       </el-form-item>
       <el-form-item prop="code">
@@ -122,11 +124,11 @@ export default {
   name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
-      var specialKey = /^[\u4e00-\u9fa5a-z]+$/gi;
+      var specialKey = /^[\u4e00-\u9fa5a-zA-Z-z0-9]+$/gi;
       if (value.length < 3) {
         callback(new Error("用户名组成为字母或数字大于等于3！"));
       } else if (!specialKey.test(value)) {
-        callback(new Error("用户名只允许汉字以及英文字母！"));
+        callback(new Error("用户名只允许汉字以及英文字母和数字！"));
       } else {
         callback();
       }
@@ -218,11 +220,11 @@ export default {
         }
       });
     },
-    confirmPassword() {
-      if (this.confirmPassword !== this.loginForm.password) {
-        callback(new Error("'密码必须由数字、字母组合,请输入6-16位'!"));
-      }
-    },
+    // confirmPassword() {
+    //   if (this.confirmPassword !== this.loginForm.password) {
+    //     callback(new Error("'密码必须由数字、字母组合,请输入6-16位'!"));
+    //   }
+    // },
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -238,11 +240,9 @@ export default {
         if (valid) {
           register(this.loginForm)
             .then((res) => {
-              console.log(11111111111111111);
               this.$router.push({ path: "/login" });
             })
             .catch((err) => {
-              console.log(2222222222222222);
               this.$refs.captcha.src =
                 "http://192.168.31.162:8080/user/login/getCode?time=" +
                 Date.now();
