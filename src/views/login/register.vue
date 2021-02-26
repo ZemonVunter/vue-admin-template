@@ -89,7 +89,7 @@
         <el-input
           placeholder="请输入验证码（点击图片刷新）"
           v-model="loginForm.code"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter.native="handleLogin('loginForm')"
           clearable
         >
         </el-input>
@@ -122,8 +122,11 @@ export default {
   name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
+      var specialKey = /^[\u4e00-\u9fa5a-z]+$/gi;
       if (value.length < 3) {
         callback(new Error("用户名组成为字母或数字大于等于3！"));
+      } else if (!specialKey.test(value)) {
+        callback(new Error("用户名只允许汉字以及英文字母！"));
       } else {
         callback();
       }
@@ -172,23 +175,24 @@ export default {
       //  confirmPassword:"",
       loginRules: {
         username: [
-          { required: true, trigger: "change", validator: validateUsername },
+          { required: true, trigger: "blur", validator: validateUsername },
         ],
         password: [
           {
             required: true,
-            trigger: ["change", "change"],
+            trigger: "blur",
             validator: validatePassword,
           },
         ],
         checkpassword: [
           {
             required: true,
-            trigger: "change",
+            trigger: "blur",
             validator: validateConfirmPassword,
           },
         ],
-        code: [{ required: true, trigger: "change", validator: validateCode }],
+
+        code: [{ required: true, trigger: "blur", validator: validateCode }],
       },
       loading: false,
       passwordType: "password",
@@ -326,7 +330,7 @@ $light_gray: #eee;
     position: relative;
     width: 520px;
     max-width: 100%;
-    // padding: 160px 35px 50px;
+    padding: 110px 35px 50px;
     margin: 0 auto;
     overflow: hidden;
   }
