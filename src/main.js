@@ -15,6 +15,13 @@ import request from '@/utils/request'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+
+import 'video.js/dist/video-js.css'
+import 'vue-video-player/src/custom-theme.css'
+import 'videojs-contrib-hls'
+import VideoPlayer from 'vue-video-player'
+Vue.use(VideoPlayer);
+
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 

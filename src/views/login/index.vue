@@ -42,6 +42,8 @@
           name="password"
           tabindex="2"
           auto-complete="on"
+          @keyup.enter.native="handleLogin('loginForm')"
+          clearable
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon
@@ -75,7 +77,7 @@
         :loading="loading"
         type="primary"
         style="width: 40%; margin-top: 25px"
-        @click.native.prevent="handleLogin"
+        @click.native.prevent="handleLogin('loginForm')"
         >登录
       </el-button>
 
@@ -140,6 +142,7 @@ export default {
     },
   },
   methods: {
+    
     register(){
       this.$router.push({path:'/register'})
     },
@@ -153,28 +156,23 @@ export default {
         this.$refs.password.focus();
       });
     },
-    handleLogin() {
-      let that = this;
-      // this.loading = true;
-      // //数据格式验证
-      // this.$refs.validate(valid => {
-      //   if (valid) {loginForm
-      //     localStorage.setItem("hasLogin", true);
-      //     this.$router.push({ path: "/" });
-      //   } else {
-      //     console.log("验证失败");
-      //   }
-      // });
-      // 可自定义登录时的逻辑处理
+   handleLogin(formName) {
+     this.$refs[formName].validate((valid) => {
+        if (valid) {
       login(this.loginForm)
         .then((res) => {
           console.log("1111111", res);
           console.log("res :", res);
           localStorage.setItem("hasLogin", true);
           localStorage.setItem("token", res.data.token);
-          localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
+          localStorage.setItem("userInfo", JSON.stringify(res.data));
           this.$router.push({ path: "/test" });
-        })
+        });
+       } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
         // .catch((err) => {
         //   this.$refs.captcha.src =
         //     "http://localhost:9000/user/login/getCode?time=" + Date.now();
@@ -214,8 +212,8 @@ $cursor: #fff;
     display: inline-block;
     height: 47px;
     width: 85%;
-
     input {
+      
       background: transparent;
       border: 0px;
       -webkit-appearance: none;
@@ -237,6 +235,12 @@ $cursor: #fff;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
+    border:2px solid rgb(255, 255, 255)
+  }
+  .el-form-item__error {
+    background-color: rgb(255, 255, 255);
+    filter: alpha(Opacity=40);
+    color: rgb(255, 5, 5);
   }
 }
 </style>
@@ -244,12 +248,16 @@ $cursor: #fff;
 <style lang="scss" scoped>
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
-$light_gray: #eee;
+$light_gray: rgb(255, 255, 255);
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-color: $bg;
+  background-image: url('../../assets/bg1.jpeg');
+   background-repeat:no-repeat; 
+  background-size:100% 100%;
+  -moz-background-size:100% 100%; 
   overflow: hidden;
 
   .login-form {
@@ -318,6 +326,7 @@ $light_gray: #eee;
   display: flex;
 }
 /deep/.zhuce {
-  margin-left: 85px;
+  margin-left: 53px;
 }
+
 </style>

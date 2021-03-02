@@ -42,6 +42,11 @@ export const constantRoutes = [
     path: '/register',
     component: () => import('@/views/login/register'),
     hidden: true
+  },{
+    name: 'vedio',
+    path: '/vedio',
+    component: () => import('@/views/vedio'),
+    hidden: true
   },
   //测试页面
   {
