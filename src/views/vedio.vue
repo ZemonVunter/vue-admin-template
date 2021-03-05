@@ -25,7 +25,7 @@
           sources: [{
             type: "video/mp4",
             type: "video/ogg",
-            src: "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" //url地址
+            src: "http://182.92.235.171/movie/%E5%94%90%E4%BA%BA%E8%A1%97%E6%8E%A2%E6%A1%883.Detective.Chinatown.3.2021.TC1080P.X264.AAC.Mandarin.CHS.mp4" //url地址
           }],
           poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg", //你的封面地址
           width: document.documentElement.clientWidth,
@@ -38,6 +38,12 @@
           }
         }
       }
+    },
+    created(){
+      let id = this.$route.query.id
+      //后端传值
+      sources
+      this.playerOptions.sources=result
     }
   }
 </script>

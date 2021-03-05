@@ -1,45 +1,50 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="日期" width="180"></el-table-column>
-    <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-    <el-table-column prop="address" label="地址"></el-table-column>
-  </el-table>
+  <div class="card">
+    <img src="@/assets/bg3.jpeg"/>
+  </div>
 </template>
-
 <script>
-import { getTableData } from "@/api/test.js";
 export default {
+  name: "Login",
   data() {
-    return {
-      tableData: []
+   return {
+      loginForm: {
+        username: "demonhunter",
+        password: "123456",
+        code: "",
+      },
+      loading: false,
+      passwordType: "password",
+      redirect: undefined,
     };
   },
-  mounted: function() {
-    // 网络请求统一处理
-    getTableData().then(res => {
-      console.log("api tableData :", res);
-      this.tableData = res.data;
-    },err=>{
-      console.log("err :", err);
-    });
-    // 网络请求直接写在文件中
-    this.req({
-      url: "getTableData",
-      data: {},
-      method: "GET"
-    }).then(
-      res => {
-        console.log("tableData :", res);
-        this.tableData = res.data;
-      },
-      err => {
-        console.log("err :", err);
-      }
-    );
+  watch: {
   },
-  methods: {}
+  methods: {
+  },
 };
 </script>
 
 <style>
+.card__cover {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
 </style>
