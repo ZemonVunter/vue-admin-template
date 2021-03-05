@@ -1,45 +1,94 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="日期" width="180"></el-table-column>
-    <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-    <el-table-column prop="address" label="地址"></el-table-column>
-  </el-table>
+  <el-row>
+    <el-col
+      :span="4"
+      v-for="(o, index) in movie"
+      :key="o"
+      :offset="index > 0 ? 0 : 0"
+    >
+      <el-card :body-style="{ padding: '0px' }" class="card">
+        <img
+          src=movie[index].img
+          class="image"
+        />
+        <div style="padding: 14px">
+          <div class="bottom clearfix">
+            <el-button type="text" class="button" @click="clicktovedio">唐人街探案3</el-button
+            >
+          </div>
+        </div>
+      </el-card>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
-import { getTableData } from "@/api/test.js";
+import {getmoviedetails} from  "@/api/test.js"
 export default {
   data() {
     return {
-      tableData: []
-    };
+      movie:[{
+        id:"",
+        src:"",
+      // "http://182.92.235.171/movie/"+"唐人街探案3.Detective.Chinatown.3.2021.TC1080P.X264.AAC.Mandarin.CHS.mp4",
+       name:"",
+        img:"",
+        }
+      ]
+      
+
+      };
   },
-  mounted: function() {
-    // 网络请求统一处理
-    getTableData().then(res => {
-      console.log("api tableData :", res);
-      this.tableData = res.data;
-    },err=>{
-      console.log("err :", err);
-    });
-    // 网络请求直接写在文件中
-    this.req({
-      url: "getTableData",
-      data: {},
-      method: "GET"
-    }).then(
-      res => {
-        console.log("tableData :", res);
-        this.tableData = res.data;
-      },
-      err => {
-        console.log("err :", err);
-      }
-    );
+  mounted(){
+getmoviedetails(data){
+this.movie=data.src
+}
   },
-  methods: {}
+  methods: {
+    clicktovedio() {
+      
+    this.$router.push({
+    name: "vedio",
+    params: {
+        src: this.src,
+    }
+});
+    },
+  },
 };
 </script>
 
 <style>
+.time {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 2px;
+}
+
+.button {
+  padding: 0;
+  float: center;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+.card {
+  margin: 20px;
+}
 </style>

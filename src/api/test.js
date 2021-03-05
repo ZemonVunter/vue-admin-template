@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function getTableData(params) {
+export function getmoviedetails(data) {
   return request({
-    url: 'getTableData',
+    url: '/movie/details',
     method: 'get',
-    params
+    data
   })
 }
