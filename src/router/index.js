@@ -3,8 +3,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-/* Layout */
-import Layout from '@/layout'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -47,52 +45,6 @@ export const constantRoutes = [
     path: '/vedio',
     component: () => import('@/views/vedio'),
     hidden: true
-  },
-  //测试页面
-  {
-    path: '/',
-    component: Layout,
-    children: [
-      {
-        path: '/test',
-        name: 'test',
-        component: () => import('@/views/test/test'),
-        meta: {
-          title: '最新电影',
-        },
-      },
-      
-     
-      {
-        path: '/404',
-        component: () => import('@/views/404'),
-        hidden: true
-      },
-    ]
-  },
-  
-  
-
-  
-  
-  // 素材管理
-  {
-    path: '/personalcenter',
-    component: Layout,
-    redirect: '/personalcenter',
-    meta: {
-      title: '个人中心',
-      icon: 'plane'
-    },
-    children: [{
-        path: '/changemessage',
-        name: 'changemessage',
-        component: () => import('@/views/personalcenter/changemessage'),
-        meta: {
-          title: '修改个人资料',
-        }
-      },
-    ]
   },
 
  
