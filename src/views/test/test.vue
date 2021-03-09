@@ -2,18 +2,16 @@
   <el-row>
     <el-col
       :span="4"
-      v-for="(o, index) in movie"
-      :key="o"
+      v-for="(item, index) in movie"
+      :key="index"
       :offset="index > 0 ? 0 : 0"
     >
       <el-card :body-style="{ padding: '0px' }" class="card">
-        <img
-          src=movie[index].img
-          class="image"
-        />
+        <img :src="item.img" class="image" />
         <div style="padding: 14px">
           <div class="bottom clearfix">
-            <el-button type="text" class="button" @click="clicktovedio">唐人街探案3</el-button
+            <el-button type="text" class="button" @click="clicktovedio(item.src)"
+              >{{ item.name }}</el-button
             >
           </div>
         </div>
@@ -23,36 +21,33 @@
 </template>
 
 <script>
-import {getmoviedetails} from  "@/api/test.js"
+import { getmoviedetails } from "@/api/test.js";
 export default {
   data() {
     return {
-      movie:[{
-        id:"",
-        src:"",
-      // "http://182.92.235.171/movie/"+"唐人街探案3.Detective.Chinatown.3.2021.TC1080P.X264.AAC.Mandarin.CHS.mp4",
-       name:"",
-        img:"",
-        }
-      ]
-      
+      movie: [{
+        src:""
+      }
+      ],
+    };
+  },
 
-      };
+  mounted() {
+    getmoviedetails().then((data) => {
+      console.log(data);
+      this.movie = data.data
+      console.log(this.movie[0].img);
+    });
   },
-  mounted(){
-getmoviedetails(data){
-this.movie=data.src
-}
-  },
+
   methods: {
-    clicktovedio() {
-      
-    this.$router.push({
-    name: "vedio",
-    params: {
-        src: this.src,
-    }
-});
+    clicktovedio(src) {
+      this.$router.push({
+        name: "vedio",
+        params: {
+          src: src,
+        },
+      });
     },
   },
 };
