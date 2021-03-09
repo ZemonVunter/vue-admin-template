@@ -1,5 +1,7 @@
  <template>
+ 
   <div class="demo">
+    <a>如果播放卡顿，请暂停，请勿刷新，刷新后页面失效。</a>
     <video-player
       class="video-player vjs-custom-skin"
       ref="videoPlayer"
