@@ -1,5 +1,4 @@
  <template>
- 
   <div class="demo">
     <a>如果播放卡顿，请暂停，请勿刷新，刷新后页面失效。</a>
     <video-player
@@ -33,8 +32,7 @@ export default {
             src: "", //url地址
           },
         ],
-        poster:
-          "", //你的封面地址
+        poster: "", //你的封面地址
         width: document.documentElement.clientWidth,
         notSupportedMessage: "此视频暂无法播放，请稍后再试", //允许覆盖Video.js无法播放媒体源时显示的默认信息。
         controlBar: {
@@ -47,9 +45,16 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route.params.src)
+    console.log(this.$route.params.src);
     this.playerOptions.sources[0].src = this.$route.params.src;
     this.playerOptions.poster = this.$route.params.img;
   },
 };
 </script>
+<style>
+.demo {
+  width: 50%;
+  margin-top: 6%;
+  margin-left: 6%;
+}
+</style>

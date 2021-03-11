@@ -24,7 +24,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: '.',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -40,7 +40,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       '/': {
         ws: false,
-        target: `http://192.168.31.162:9000/`,
+        target: `http://localhost:9000/`,
         changeOrigin: true,
         pathRewrite: {
         }

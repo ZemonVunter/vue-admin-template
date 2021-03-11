@@ -98,7 +98,7 @@
       </el-form-item>
       <div class="img-yzm">
         <img
-          src="http://192.168.31.162:8080/user/login/getCode"
+          src="/login/getCode"
           alt="captcha"
           @click="getCaptcha"
           ref="captcha"
@@ -244,7 +244,7 @@ export default {
             })
             .catch((err) => {
               this.$refs.captcha.src =
-                "http://192.168.31.162:8080/user/login/getCode?time=" +
+                "/login/getCode?time=" +
                 Date.now();
             });
         } else {
@@ -256,7 +256,7 @@ export default {
 
     getCaptcha() {
       this.$refs.captcha.src =
-        "http://192.168.31.162:8080/user/login/getCode?time=" + Date.now();
+        "/login/getCode?time=" + Date.now();
     },
   },
 };
