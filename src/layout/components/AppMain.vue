@@ -2,6 +2,7 @@
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
+     <h1>请点击上方按钮，打开测变栏，重新进入您喜欢的页面。</h1>
     </transition>
   </section>
 </template>
@@ -24,6 +25,7 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
+  background-color:#283443 ;
 }
 .fixed-header+.app-main {
   padding-top: 50px;

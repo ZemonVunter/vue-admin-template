@@ -6,16 +6,17 @@
       :key="index"
       :offset="index > 0 ? 0 : 0"
     >
+    <div @click="clicktovedio(item.src)" class="box">
       <el-card :body-style="{ padding: '0px' }" class="card">
         <img :src="item.img" class="image" />
-        <div style="padding: 14px">
+        <div style="padding: 14px" class="blue">
           <div class="bottom clearfix">
-            <el-button type="text" class="button" @click="clicktovedio(item.src)"
+            <el-button  type="info" class="button" @click="clicktovedio(item.src)"
               >{{ item.name }}</el-button
             >
           </div>
         </div>
-      </el-card>
+      </el-card></div>
     </el-col>
   </el-row>
 </template>
@@ -43,7 +44,7 @@ export default {
   methods: {
     clicktovedio(src) {
       this.$router.push({
-        name: "vedio",
+        name: "video",
         params: {
           src: src,
         },
@@ -54,6 +55,9 @@ export default {
 </script>
 
 <style>
+.blue{
+  background-color: #909399;
+}
 .time {
   font-size: 13px;
   color: #999;
@@ -67,6 +71,7 @@ export default {
 .button {
   padding: 0;
   float: center;
+  border: 0;
 }
 
 .image {
@@ -85,6 +90,17 @@ export default {
   clear: both;
 }
 .card {
-  margin: 20px;
+  /* margin: 20px; */
+}
+.box {
+  cursor: pointer;
+  /* padding: 10px; */
+  margin: 10px 20px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.box:hover {
+  box-shadow: 1px 1px 1px 2px #eee;
+  opacity: 0.8;
 }
 </style>

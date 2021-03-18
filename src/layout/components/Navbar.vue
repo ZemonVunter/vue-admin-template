@@ -5,7 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-button @click="logout">退出登录</el-button>
+      <el-button type="primary" @click="logout" class="white">退出登录</el-button>
     </div>
   </div>
 </template>
@@ -39,11 +39,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.white{
+  color: rgb(255, 255, 255);
+}
 .navbar {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: #283443;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 
   .hamburger-container {

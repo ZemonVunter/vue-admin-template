@@ -90,8 +90,8 @@
         >注册
       </el-button>
     </el-form>
-    <div class="info" style="bottom: 40px">Beta: 1.0</div>
-    <div class="info">Technical Support: XXX</div>
+    <!-- <div class="info" style="bottom: 40px">Beta: 1.0</div>
+    <div class="info">Technical Support: XXX</div> -->
   </div>
 </template>
 
