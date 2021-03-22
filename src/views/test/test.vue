@@ -35,9 +35,7 @@ export default {
 
   mounted() {
     getmoviedetails().then((data) => {
-      console.log(data);
       this.movie = data.data
-      console.log(this.movie[0].img);
     });
   },
 

@@ -49,6 +49,7 @@ export const constantRoutes = [
     component: () => import('@/views/video'),
     hidden: true
   },
+  
   //测试页面
   {
     path: '/',
@@ -62,7 +63,14 @@ export const constantRoutes = [
           title: '最新电影',
         },
       },
-      
+      {
+        name: 'personalinformation',
+        path: '/personalinformation',
+        component: () => import('@/views/personalinformation'),
+        meta: {
+          title: '个人中心',
+        },
+      },
      
       {
         path: '/404',
