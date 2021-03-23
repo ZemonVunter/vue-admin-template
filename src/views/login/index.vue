@@ -166,6 +166,10 @@ export default {
           localStorage.setItem("hasLogin", true);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("userInfo", JSON.stringify(res.data));
+          this.$message({
+              message:"登录成功！",
+              type: 'success'
+              });
           this.$router.push({ path: "/test" });
         });
        } else {

@@ -7,3 +7,10 @@ export function getpersonalinfo(params){
     params
   })
 }
+export function updatepersonalinfo(data) {
+  return request({
+    url: '/person/updatepersonalinfo',
+    method: 'post',
+    data
+  })
+}

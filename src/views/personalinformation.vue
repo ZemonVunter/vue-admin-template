@@ -45,7 +45,7 @@
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')"
+      <el-button type="primary" @click.native.prevent="submitForm('ruleForm')"
         >确认修改</el-button
       >
     </el-form-item>
@@ -53,6 +53,7 @@
 </template>
 <script>
 import { getpersonalinfo } from "@/api/personalinfo.js";
+import{updatepersonalinfo} from "@/api/personalinfo.js";
 export default {
     
   data() {
@@ -97,15 +98,25 @@ export default {
 
   methods: {
     submitForm(formName) {
+      let that = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
-        } else {
+         that.change();
+          } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
+    change(){
+       updatepersonalinfo(this.ruleForm).
+          then((res) =>{
+            this.$message({
+              message:res.message,
+              type: 'success'
+              });
+        });
+    }
   },
 };
 </script>
