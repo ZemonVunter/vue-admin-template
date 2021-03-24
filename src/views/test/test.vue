@@ -1,7 +1,8 @@
 <template>
   <el-row>
     <el-col
-      :span="4"
+      :md="{span: 3}" 
+      :xs=" {span: 12}"
       v-for="(item, index) in movie"
       :key="index"
       :offset="index > 0 ? 0 : 0"

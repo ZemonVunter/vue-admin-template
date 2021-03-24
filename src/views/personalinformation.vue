@@ -3,11 +3,12 @@
     :model="ruleForm"
     :rules="rules"
     ref="ruleForm"
-    label-width="100px"
+    label-width="120px"
     class="demo-ruleForm"
   >
     <el-form-item label="用户名" prop="username">
-      <el-col :span="4">
+      <el-col :md="{span: 5}" 
+      :xs=" {span: 17}">
         <el-input
           v-model="ruleForm.username"
           :disabled="true"
@@ -16,17 +17,20 @@
       </el-col>
     </el-form-item>
     <el-form-item label="手机号" prop="phone">
-      <el-col :span="4">
-        <el-input v-model="ruleForm.phone"></el-input>
+      <el-col :md="{span: 5}" 
+      :xs=" {span: 17}">
+        <el-input v-model="ruleForm.phone" maxlength="11"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item label="性别" prop="sex">
-      <el-col :span="4">
+     <el-col :md="{span: 5}" 
+      :xs=" {span: 17}">
         <el-input v-model="ruleForm.sex" :disabled="true"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-col :span="4">
+     <el-col :md="{span: 5}" 
+      :xs=" {span: 17}">
         <el-date-picker
           type="date"
           placeholder="   请选择您的出生日期(可点击顶部年份或月份，快速选择)"
@@ -40,12 +44,13 @@
       </el-col>
     </el-form-item>
     <el-form-item label="认证状态" prop="name">
-      <el-col :span="4">
+      <el-col :md="{span: 5}" 
+      :xs=" {span: 17}">
         <el-input v-model="ruleForm.authStatus" :disabled="true"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click.native.prevent="submitForm('ruleForm')"
+      <el-button type="primary" class="confirmchange" @click.native.prevent="submitForm('ruleForm')"
         >确认修改</el-button
       >
     </el-form-item>
@@ -120,3 +125,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.confirmchange{
+margin-top: 15px;
+margin-left: 30px;
+}
+</style>
