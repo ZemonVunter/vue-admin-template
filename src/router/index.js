@@ -54,6 +54,10 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
+    meta: {
+      title: '电影观看', //元信息，一级导航的名称
+      icon: 'plane' // 元信息，导航图标的名称
+    },
     children: [
       {
         path: '/test',
@@ -64,18 +68,28 @@ export const constantRoutes = [
         },
       },
       {
+        path: '/404',
+        component: () => import('@/views/404'),
+        hidden: true
+      },
+    ]
+  },
+  {
+    path: '/material',
+    component: Layout,
+    redirect: '/material/upload',
+    meta: {
+      title: '素材管理', //元信息，一级导航的名称
+      icon: 'eye' // 元信息，导航图标的名称
+    },
+    children: [
+      {
         name: 'personalinformation',
         path: '/personalinformation',
         component: () => import('@/views/personalinformation'),
         meta: {
           title: '个人中心',
         },
-      },
-     
-      {
-        path: '/404',
-        component: () => import('@/views/404'),
-        hidden: true
       },
     ]
   },
