@@ -1,21 +1,22 @@
  <template>
- <div class="background">
-  <div class="demo">
-    <a>如果播放卡顿，请暂停，请勿刷新，刷新后页面失效。</a>
-    <video-player
-      class="video-player vjs-custom-skin"
-      ref="videoPlayer"
-      :playsinline="true"
-      :options="playerOptions"
-    >
-    </video-player>
+  <div class="background">
+    <el-button type="primary" class="reback" @click="reback()">返回首页</el-button>
+    <div class="demo">
+      <video-player
+        class="video-player vjs-custom-skin"
+        ref="videoPlayer"
+        :playsinline="true"
+        :options="playerOptions"
+      >
+      </video-player>
+      <a>如果播放卡顿，请暂停或返回首页重新进入，请勿刷新，刷新后页面失效。</a>
+    </div>
+    <div class="choicebutton" v-if="type === 'TVshow'">
+      <el-row>
+        <!-- <el-button v-for="">默认按钮</el-button> -->
+      </el-row>
+    </div>
   </div>
-  <div class="choicebutton" v-if="type==='TVshow'">
-  <el-row>
-    <!-- <el-button v-for="">默认按钮</el-button> -->
-  </el-row>
-  </div>
- </div>
 </template>
   
 <script>
@@ -32,13 +33,13 @@ export default {
         language: "zh-CN",
         aspectRatio: "16:9", // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-        sources: [  
+        sources: [
           {
             type: "video/mp4",
             type: "video/ogg",
             type: "video/webm",
             src: "", //url地址
-            tracker:""
+            tracker: "",
           },
         ],
         poster: "", //你的封面地址
@@ -51,31 +52,41 @@ export default {
           fullscreenToggle: true, //全屏按钮
         },
       },
-      type:"",
+      type: "",
     };
   },
   mounted() {
-    document.querySelector('body').setAttribute('style', 'background-color:#283443')
+    document
+      .querySelector("body")
+      .setAttribute("style", "background-color:#283443");
     this.playerOptions.sources[0].src = this.$route.params.src;
     this.type = this.$route.params.type;
   },
   methods: {
-   
+    reback(){
+      this.$router.push({ path: "/test" });
+    }
   },
 };
 </script>
 <style scoped>
 .demo {
-  width: 50%;
-  margin-top: 6%;
+  width: 90%;
+  margin-top: 12%;
   margin-left: 6%;
 }
-.choicebutton{
+.choicebutton {
   position: relative;
-  top: 50px;
+  top: 20px;
   left: 100px;
 }
-.background{
+.background {
   background-color: #283443;
+  /* position: relative; */
+}
+.reback {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>
