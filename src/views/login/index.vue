@@ -161,8 +161,6 @@ export default {
         if (valid) {
       login(this.loginForm)
         .then((res) => {
-          console.log("1111111", res);
-          console.log("res :", res);
           localStorage.setItem("hasLogin", true);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("userInfo", JSON.stringify(res.data));
