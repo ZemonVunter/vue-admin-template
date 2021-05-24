@@ -93,6 +93,25 @@ export const constantRoutes = [
       },
     ]
   },
+  {
+    path: '/',
+    component: Layout,
+    meta: {
+      title: '捐赠', //元信息，一级导航的名称
+      icon: 'tree' // 元信息，导航图标的名称
+    },
+    children: [
+      {
+        path: '/donate',
+        name: 'donate',
+        component: () => import('@/views/donate/donate'),
+        meta: {
+          title: '捐赠',
+        },
+      },
+    ]
+  },
+
  
   
   
